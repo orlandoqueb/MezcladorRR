@@ -111,6 +111,23 @@ textarea { min-height: 110px; font-size: 12px; resize: vertical; }
 details summary { cursor: pointer; font-weight: 600; }
 ul.how { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--muted); }
 ul.how b { color: var(--ink); font-weight: 600; }
+.gen { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 18px; }
+@media (max-width: 820px) { .gen { grid-template-columns: minmax(0, 1fr); } }
+.gen form { display: grid; gap: 10px; }
+input[type=url], input[type=text] {
+  font: 500 14px var(--font-body); color: var(--ink); background: #181d13; border: 1px solid #414b35;
+  border-radius: 8px; padding: 8px 10px; min-height: 40px; width: 100%; box-sizing: border-box;
+}
+input[type=url]:focus-visible, input[type=text]:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+.about { margin: 0; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.about b { color: var(--ink); font-weight: 600; }
+.genStatus { font-size: 13px; color: var(--muted); }
+.genStatus.warn { color: var(--warn); }
+.free { display: grid; gap: 10px; padding: 12px; border: 1px dashed #62714f; border-radius: 10px; }
+.free a { color: var(--lime); }
+a.btn { display: inline-flex; align-items: center; text-decoration: none; color: var(--ink); }
+#freeAnswer { min-height: 90px; }
+.free[hidden] { display: none; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
@@ -121,6 +138,47 @@ ul.how b { color: var(--ink); font-weight: 600; }
     <h1>Mezclador <span>RadioRun</span></h1>
     <p class="sub">Cada fila es un instrumento de la música adaptativa. La parte verde es el rango de BPM en el que suena: arrastra sus bordes para que entre antes o después, o para que dure más o menos. Pulsa Play para oírlo con el mismo motor que la app, y <b>Guardar</b> para conservar la mezcla en <code>mix.json</code>.</p>
   </header>
+
+  <section class="panel gen" aria-labelledby="genTitle">
+    <div style="display:grid; gap:10px; align-content:start">
+      <h2 id="genTitle">Canción</h2>
+      <label>Escuchando
+        <select id="songSel"><option value="">RadioRun (original)</option></select>
+      </label>
+      <p id="songAbout" class="about">La música adaptativa original de RadioRun.</p>
+    </div>
+    <form id="genForm">
+      <h2>Nueva canción desde un enlace</h2>
+      <label>Enlace de una canción que te guste (YouTube, Spotify, SoundCloud…)
+        <input id="genLink" type="url" required placeholder="https://www.youtube.com/watch?v=…" autocomplete="off">
+      </label>
+      <label>Qué te gusta de ella (opcional)
+        <input id="genNote" type="text" maxlength="600" placeholder="Por ejemplo: la marimba, el bajo que rueda, que sea alegre" autocomplete="off">
+      </label>
+      <div class="row">
+        <button id="freeBtn" class="primary" type="submit">Componer gratis con claude.ai</button>
+        <button id="genBtn" type="button">Con clave de API</button>
+        <span id="genStatus" class="genStatus" role="status"></span>
+      </div>
+      <div id="freeSteps" class="free" hidden>
+        <label><span>1 · Copia este texto y pégalo en un chat nuevo de <a href="https://claude.ai/new" target="_blank" rel="noopener">claude.ai</a> (sirve una cuenta gratis)</span>
+          <textarea id="freePrompt" readonly></textarea>
+        </label>
+        <div class="row">
+          <button id="freeCopy" type="button">Copiar texto</button>
+          <a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener">Abrir claude.ai</a>
+          <span id="freeCopyNote" class="note"></span>
+        </div>
+        <label>2 · Pega aquí la respuesta completa de Claude
+          <textarea id="freeAnswer" placeholder="{ &quot;title&quot;: … }"></textarea>
+        </label>
+        <div class="row">
+          <button id="freeImport" class="primary" type="button">Crear la canción</button>
+        </div>
+      </div>
+      <p class="note">Claude escucha <b>la idea</b>, no el audio: lee el título y el artista del enlace y compone una canción nueva con instrumentos, tonalidad y ritmos inspirados en ella, que va de spa tranquilo a intenso con el BPM, como la de RadioRun. Los sonidos se crean por código. <b>Gratis:</b> copias un texto a claude.ai y pegas su respuesta. <b>Con clave de API:</b> se hace solo, pero se paga por uso.</p>
+    </form>
+  </section>
 
   <section class="transport" aria-label="Reproducción">
     <button id="play" class="primary" aria-pressed="false" disabled>Cargando…</button>
@@ -187,7 +245,7 @@ ul.how b { color: var(--ink); font-weight: 600; }
   <section class="panel" aria-labelledby="saveTitle">
     <h2 id="saveTitle">Guardar</h2>
     <ul class="how">
-      <li><b>Guardar</b> escribe tus rangos y volúmenes en <code>mix.json</code>, en la carpeta del Mezclador. Súbelo a GitHub para compartir la mezcla.</li>
+      <li><b>Guardar</b> escribe tus rangos y volúmenes en <code>mix.json</code>, en la carpeta del Mezclador (o en <code>songs/&lt;canción&gt;/</code> si es una canción nueva). Súbelo a GitHub para compartir la mezcla.</li>
       <li>Para llevar la mezcla a RadioRun, pasa ese <code>mix.json</code> al proyecto de la app (o a Claude, que lo aplica).</li>
       <li><b>Restablecer todo</b> vuelve a los valores de <code>song.json</code>. Se aplica al guardar.</li>
     </ul>
@@ -208,6 +266,8 @@ ul.how b { color: var(--ink); font-weight: 600; }
 'use strict';
 // ---- The song, served by server.cjs from song.json (and mix.json) ----
 let SONG = { layers: [] };
+const SONG_NAME = new URLSearchParams(location.search).get('song') || '';
+let KIT_BASE = '/kit/';
 const NAMES = {
   pad: 'Pad de fondo', air: 'Aire (olas)', flute: 'Flauta de pan', bells: 'Campanas', heartbeat: 'Latido', shaker: 'Shaker', sub: 'Bajo sub',
   kick: 'Bombo', hat: 'Charles', clap: 'Palmas', roll: 'Bajo rodante', hats16: 'Charles en 16', openhat: 'Charles abierto',
@@ -230,6 +290,21 @@ let saved = '{}';
 
 function useSong(data) {
   SONG = { layers: data.layers };
+  KIT_BASE = data.kit || '/kit/';
+  // Generated songs carry their own names and groups.
+  for (const l of SONG.layers) if (l.name) NAMES[l.id] = l.name;
+  if (SONG.layers.some((l) => l.group)) {
+    const by = (g) => SONG.layers.filter((l) => l.group === g).map((l) => l.id);
+    GROUPS.splice(0, GROUPS.length, ['SPA', by('spa')], ['RITMO', by('ritmo')], ['PICO', by('pico')], ['TUS LOOPS', []]);
+  }
+  if (data.meta) {
+    const m = data.meta, src = m.source || {};
+    const about = $('songAbout');
+    about.textContent = '';
+    const b = document.createElement('b'); b.textContent = m.title; about.appendChild(b);
+    const from = [src.title, src.artist].filter(Boolean).join(' · ');
+    about.appendChild(document.createTextNode(`${m.key ? ' · ' + m.key : ''}. ${m.inspiration || ''}${from ? ` Inspirada en: ${from}.` : ''}`));
+  }
   for (const l of SONG.layers) {
     DEFAULTS[l.id] = { in: [...l.in], out: l.out ? [...l.out] : null, floor: l.floor, gain: l.gain };
     const m = (data.mix && data.mix[l.id]) || {};
@@ -342,7 +417,7 @@ async function loadKit() {
   samples = {};
   let done = 0;
   await Promise.all(ids.map(async (id) => {
-    const res = await fetch('/kit/' + id + '.wav');
+    const res = await fetch(KIT_BASE + id + '.wav');
     if (!res.ok) throw new Error(id);
     const buf = await ctx.decodeAudioData(await res.arrayBuffer());
     samples[id] = buf.getChannelData(0);
@@ -395,7 +470,7 @@ function shownBpm() { return playing ? (mode === 'journey' ? currentBpm() : fixe
 function frame() {
   const bpm = shownBpm();
   $('bpmOut').textContent = bpm; if (mode === 'journey') $('bpm').value = bpm;
-  $('phase').textContent = bpm < 100 ? 'Spa' : bpm < 150 ? 'Ritmo' : 'Techno';
+  $('phase').textContent = bpm < 100 ? 'Spa' : bpm < 150 ? 'Ritmo' : GROUPS.some(([g]) => g === 'PICO') ? 'Pico' : 'Techno';
   draw();
   if (playing) requestAnimationFrame(frame);
 }
@@ -657,7 +732,7 @@ $('save').addEventListener('click', async () => {
   $('save').disabled = true;
   setStatus('Guardando…');
   try {
-    const res = await fetch('/api/mix', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(changes()) });
+    const res = await fetch('/api/mix?song=' + encodeURIComponent(SONG_NAME), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(changes()) });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error);
     saved = JSON.stringify(changes());
@@ -675,7 +750,83 @@ $('copy').addEventListener('click', async () => {
 
 // ---- Start-up ----
 window.addEventListener('resize', () => { layout(); draw(); });
-fetch('/api/song')
+// ---- Songs: RadioRun's and the ones composed from a link ----
+fetch('/api/songs')
+  .then((r) => r.json())
+  .then(({ songs }) => {
+    const sel = $('songSel');
+    sel.innerHTML = '';
+    for (const s of songs) { const o = document.createElement('option'); o.value = s.name; o.textContent = s.title; sel.appendChild(o); }
+    sel.value = SONG_NAME;
+  })
+  .catch(() => {});
+$('songSel').addEventListener('change', (e) => {
+  const v = e.target.value;
+  location.search = v ? '?song=' + encodeURIComponent(v) : '';
+});
+// Free mode: the prompt goes to claude.ai by hand, the answer comes back here.
+let freeInfo = null;
+const postJson = async (url, body) => {
+  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const data = await res.json().catch(() => ({ ok: false, error: 'El servidor no respondió bien.' }));
+  if (!data.ok) throw new Error(data.error);
+  return data;
+};
+function openSong(data) {
+  $('genStatus').textContent = `Lista: ${data.meta.title}. Abriéndola…`;
+  if (playing) stop();
+  location.search = '?song=' + encodeURIComponent(data.name);
+}
+$('genForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const st = $('genStatus'), btn = $('freeBtn');
+  btn.disabled = true; st.classList.remove('warn'); st.textContent = 'Leyendo el enlace…';
+  try {
+    const data = await postJson('/api/prompt', { link: $('genLink').value, note: $('genNote').value });
+    freeInfo = data.info;
+    $('freePrompt').value = data.prompt;
+    $('freeSteps').hidden = false;
+    const what = [data.info.title, data.info.artist].filter(Boolean).join(' · ');
+    st.textContent = what ? `Canción: ${what}. Sigue los pasos 1 y 2.` : 'No pude leer el título del enlace; Claude usará el enlace y tu nota. Sigue los pasos 1 y 2.';
+    $('freePrompt').scrollIntoView({ block: 'nearest' });
+  } catch (err) {
+    st.textContent = String(err.message || err); st.classList.add('warn');
+  }
+  btn.disabled = false;
+});
+$('freeCopy').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText($('freePrompt').value); $('freeCopyNote').textContent = 'Copiado. Pégalo en claude.ai.'; }
+  catch { $('freePrompt').select(); $('freeCopyNote').textContent = 'Selecciona el texto y cópialo (Ctrl+C).'; }
+});
+$('freeImport').addEventListener('click', async () => {
+  const st = $('genStatus'), btn = $('freeImport');
+  btn.disabled = true; st.classList.remove('warn'); st.textContent = 'Creando los sonidos…';
+  try {
+    openSong(await postJson('/api/import', { answer: $('freeAnswer').value, info: freeInfo, note: $('genNote').value }));
+  } catch (err) {
+    st.textContent = String(err.message || err); st.classList.add('warn');
+    btn.disabled = false;
+  }
+});
+$('genBtn').addEventListener('click', async () => {
+  if (!$('genForm').reportValidity()) return;
+  const st = $('genStatus'), btn = $('genBtn');
+  btn.disabled = true; st.classList.remove('warn');
+  const t0 = Date.now();
+  const tick = setInterval(() => { st.textContent = `Componiendo… ${Math.round((Date.now() - t0) / 1000)} s`; }, 1000);
+  st.textContent = 'Leyendo el enlace…';
+  try {
+    const data = await postJson('/api/generate', { link: $('genLink').value, note: $('genNote').value });
+    clearInterval(tick);
+    openSong(data);
+  } catch (err) {
+    clearInterval(tick);
+    st.textContent = String(err.message || err); st.classList.add('warn');
+    btn.disabled = false;
+  }
+});
+
+fetch('/api/song?song=' + encodeURIComponent(SONG_NAME))
   .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
   .then((data) => {
     useSong(data);

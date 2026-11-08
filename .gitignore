@@ -1,2 +1,4 @@
 node_modules/
 .DS_Store
+# Sounds of generated songs: server.cjs makes them again from songs/*/song.json
+songs/*/kit/
