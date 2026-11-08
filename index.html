@@ -123,6 +123,11 @@ input[type=url]:focus-visible, input[type=text]:focus-visible { outline: 2px sol
 .about b { color: var(--ink); font-weight: 600; }
 .genStatus { font-size: 13px; color: var(--muted); }
 .genStatus.warn { color: var(--warn); }
+.free { display: grid; gap: 10px; padding: 12px; border: 1px dashed #62714f; border-radius: 10px; }
+.free a { color: var(--lime); }
+a.btn { display: inline-flex; align-items: center; text-decoration: none; color: var(--ink); }
+#freeAnswer { min-height: 90px; }
+.free[hidden] { display: none; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
@@ -151,10 +156,27 @@ input[type=url]:focus-visible, input[type=text]:focus-visible { outline: 2px sol
         <input id="genNote" type="text" maxlength="600" placeholder="Por ejemplo: la marimba, el bajo que rueda, que sea alegre" autocomplete="off">
       </label>
       <div class="row">
-        <button id="genBtn" class="primary" type="submit">Componer</button>
+        <button id="freeBtn" class="primary" type="submit">Componer gratis con claude.ai</button>
+        <button id="genBtn" type="button">Con clave de API</button>
         <span id="genStatus" class="genStatus" role="status"></span>
       </div>
-      <p class="note">Claude escucha <b>la idea</b>, no el audio: lee el título y el artista del enlace y compone una canción nueva con instrumentos, tonalidad y ritmos inspirados en ella, que va de spa tranquilo a intenso con el BPM, como la de RadioRun. Los sonidos se crean por código. Tarda uno o dos minutos.</p>
+      <div id="freeSteps" class="free" hidden>
+        <label><span>1 · Copia este texto y pégalo en un chat nuevo de <a href="https://claude.ai/new" target="_blank" rel="noopener">claude.ai</a> (sirve una cuenta gratis)</span>
+          <textarea id="freePrompt" readonly></textarea>
+        </label>
+        <div class="row">
+          <button id="freeCopy" type="button">Copiar texto</button>
+          <a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener">Abrir claude.ai</a>
+          <span id="freeCopyNote" class="note"></span>
+        </div>
+        <label>2 · Pega aquí la respuesta completa de Claude
+          <textarea id="freeAnswer" placeholder="{ &quot;title&quot;: … }"></textarea>
+        </label>
+        <div class="row">
+          <button id="freeImport" class="primary" type="button">Crear la canción</button>
+        </div>
+      </div>
+      <p class="note">Claude escucha <b>la idea</b>, no el audio: lee el título y el artista del enlace y compone una canción nueva con instrumentos, tonalidad y ritmos inspirados en ella, que va de spa tranquilo a intenso con el BPM, como la de RadioRun. Los sonidos se crean por código. <b>Gratis:</b> copias un texto a claude.ai y pegas su respuesta. <b>Con clave de API:</b> se hace solo, pero se paga por uso.</p>
     </form>
   </section>
 
@@ -742,21 +764,61 @@ $('songSel').addEventListener('change', (e) => {
   const v = e.target.value;
   location.search = v ? '?song=' + encodeURIComponent(v) : '';
 });
+// Free mode: the prompt goes to claude.ai by hand, the answer comes back here.
+let freeInfo = null;
+const postJson = async (url, body) => {
+  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const data = await res.json().catch(() => ({ ok: false, error: 'El servidor no respondió bien.' }));
+  if (!data.ok) throw new Error(data.error);
+  return data;
+};
+function openSong(data) {
+  $('genStatus').textContent = `Lista: ${data.meta.title}. Abriéndola…`;
+  if (playing) stop();
+  location.search = '?song=' + encodeURIComponent(data.name);
+}
 $('genForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const st = $('genStatus'), btn = $('freeBtn');
+  btn.disabled = true; st.classList.remove('warn'); st.textContent = 'Leyendo el enlace…';
+  try {
+    const data = await postJson('/api/prompt', { link: $('genLink').value, note: $('genNote').value });
+    freeInfo = data.info;
+    $('freePrompt').value = data.prompt;
+    $('freeSteps').hidden = false;
+    const what = [data.info.title, data.info.artist].filter(Boolean).join(' · ');
+    st.textContent = what ? `Canción: ${what}. Sigue los pasos 1 y 2.` : 'No pude leer el título del enlace; Claude usará el enlace y tu nota. Sigue los pasos 1 y 2.';
+    $('freePrompt').scrollIntoView({ block: 'nearest' });
+  } catch (err) {
+    st.textContent = String(err.message || err); st.classList.add('warn');
+  }
+  btn.disabled = false;
+});
+$('freeCopy').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText($('freePrompt').value); $('freeCopyNote').textContent = 'Copiado. Pégalo en claude.ai.'; }
+  catch { $('freePrompt').select(); $('freeCopyNote').textContent = 'Selecciona el texto y cópialo (Ctrl+C).'; }
+});
+$('freeImport').addEventListener('click', async () => {
+  const st = $('genStatus'), btn = $('freeImport');
+  btn.disabled = true; st.classList.remove('warn'); st.textContent = 'Creando los sonidos…';
+  try {
+    openSong(await postJson('/api/import', { answer: $('freeAnswer').value, info: freeInfo, note: $('genNote').value }));
+  } catch (err) {
+    st.textContent = String(err.message || err); st.classList.add('warn');
+    btn.disabled = false;
+  }
+});
+$('genBtn').addEventListener('click', async () => {
+  if (!$('genForm').reportValidity()) return;
   const st = $('genStatus'), btn = $('genBtn');
   btn.disabled = true; st.classList.remove('warn');
   const t0 = Date.now();
   const tick = setInterval(() => { st.textContent = `Componiendo… ${Math.round((Date.now() - t0) / 1000)} s`; }, 1000);
   st.textContent = 'Leyendo el enlace…';
   try {
-    const res = await fetch('/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ link: $('genLink').value, note: $('genNote').value }) });
-    const data = await res.json().catch(() => ({ ok: false, error: 'El servidor no respondió bien.' }));
-    if (!data.ok) throw new Error(data.error);
+    const data = await postJson('/api/generate', { link: $('genLink').value, note: $('genNote').value });
     clearInterval(tick);
-    st.textContent = `Lista: ${data.meta.title}. Abriéndola…`;
-    if (playing) stop();
-    location.search = '?song=' + encodeURIComponent(data.name);
+    openSong(data);
   } catch (err) {
     clearInterval(tick);
     st.textContent = String(err.message || err); st.classList.add('warn');

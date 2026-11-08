@@ -86,3 +86,13 @@ test('the schema lists every instrument type', () => {
   const types = SCHEMA.properties.instruments.items.properties.sound.properties.type.enum;
   assert.deepEqual(types, Object.keys(TYPES));
 });
+
+test('free mode: the chat prompt has everything, and a pasted answer is read back', () => {
+  const { chatPrompt, parseAnswer } = require('../composer.cjs');
+  const text = chatPrompt({ info: { url: 'https://youtu.be/x', title: 'Song', artist: 'Band' }, note: 'la marimba', songFile: path.join(__dirname, '..', 'song.json') });
+  for (const bit of ['RadioRun', 'Title: Song', 'Artist / channel: Band', 'la marimba', '"instruments"', '"kick"']) assert.ok(text.includes(bit), bit);
+  const raw = JSON.stringify(spec);
+  assert.deepEqual(parseAnswer('Aquí está:\n```json\n' + raw + '\n```\n¡Disfrútala!'), spec);
+  assert.throws(() => parseAnswer('no json here'), /No encontré/);
+  assert.throws(() => parseAnswer(raw.slice(0, raw.length / 2) + '}'), /incompleta/);
+});

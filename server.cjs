@@ -103,6 +103,34 @@ async function generate(body, res) {
   }
 }
 
+/** Free mode, step 1: the prompt to paste into claude.ai. */
+async function prompt(body, res) {
+  const { readLink, chatPrompt } = require('./composer.cjs');
+  try {
+    const input = JSON.parse(body || '{}');
+    const info = await readLink(input.link);
+    const note = String(input.note || '').slice(0, 600);
+    send(res, 200, 'application/json', JSON.stringify({ ok: true, info, prompt: chatPrompt({ info, note, songFile: SONG }) }));
+  } catch (e) {
+    send(res, 400, 'application/json', JSON.stringify({ ok: false, error: String(e.message || e) }));
+  }
+}
+
+/** Free mode, step 2: Claude's answer pasted back → a new song. */
+function importAnswer(body, res) {
+  const { parseAnswer, buildSong, saveSong } = require('./composer.cjs');
+  try {
+    const input = JSON.parse(body || '{}');
+    const spec = parseAnswer(input.answer);
+    const source = input.info && typeof input.info === 'object' ? { url: String(input.info.url || ''), title: String(input.info.title || ''), artist: String(input.info.artist || '') } : null;
+    const built = buildSong(spec, { source, note: String(input.note || '').slice(0, 600), model: 'claude.ai (copiar y pegar)', created: new Date().toISOString() });
+    const name = saveSong(SONGS, built);
+    send(res, 200, 'application/json', JSON.stringify({ ok: true, name, meta: built.song.meta }));
+  } catch (e) {
+    send(res, 400, 'application/json', JSON.stringify({ ok: false, error: String(e.message || e) }));
+  }
+}
+
 function send(res, status, type, body) {
   res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-store' });
   res.end(body);
@@ -150,11 +178,13 @@ function handle(req, res) {
     });
     return;
   }
-  if (req.method === 'POST' && url.pathname === '/api/generate') {
+  if (req.method === 'POST' && ['/api/generate', '/api/prompt', '/api/import'].includes(url.pathname)) {
     // JSON only: other web pages can't send that without the browser asking
-    // first (and this server never says yes), so they can't spend your credits.
+    // first (and this server never says yes), so they can't spend your credits
+    // or add songs.
     if (!/^application\/json/.test(req.headers['content-type'] || '')) return send(res, 415, 'text/plain', 'JSON only');
-    readBody(req, 10_000, (body) => generate(body, res));
+    const run = { '/api/generate': generate, '/api/prompt': prompt, '/api/import': importAnswer }[url.pathname];
+    readBody(req, url.pathname === '/api/import' ? 2_000_000 : 10_000, (body) => run(body, res));
     return;
   }
   send(res, 404, 'text/plain', 'Not found');

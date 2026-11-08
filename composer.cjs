@@ -155,6 +155,50 @@ function referenceSong(songFile) {
   }
 }
 
+/** What we know about the song, as the request to Claude. */
+function describe(info, note) {
+  return [
+    `Link: ${info.url}`,
+    info.title && `Title: ${info.title}`,
+    info.artist && `Artist / channel: ${info.artist}`,
+    info.description && `Description: ${info.description}`,
+    note && `What the user likes about it: ${note}`,
+  ].filter(Boolean).join('\n');
+}
+
+/**
+ * The whole request as one message, for pasting into a chat at claude.ai
+ * (no API key needed). The answer goes back in with parseAnswer().
+ */
+function chatPrompt({ info, note, songFile }) {
+  return `${SYSTEM}
+
+Reference song (song.json layers, events truncated to 24):
+${referenceSong(songFile)}
+
+Compose a new adaptive composition inspired by this song.
+
+${describe(info, note)}
+
+Answer with ONLY one JSON object (no text before or after it, no artifact), matching this JSON schema exactly:
+${JSON.stringify(SCHEMA)}
+
+Keep it compact so it fits in one answer: 14 to 18 instruments and no more than about 500 events in total. Write the JSON on as few lines as you can.`;
+}
+
+/** Finds the JSON object in a pasted chat answer (tolerates ```json fences and text around it). */
+function parseAnswer(text) {
+  const s = String(text || '');
+  const start = s.indexOf('{');
+  const end = s.lastIndexOf('}');
+  if (start < 0 || end <= start) throw new Error('No encontré la composición en lo que pegaste. Copia la respuesta completa de Claude (empieza con { y termina con }).');
+  try {
+    return JSON.parse(s.slice(start, end + 1));
+  } catch {
+    throw new Error('La respuesta de Claude está incompleta o cortada. Si se cortó, pídele en el chat "continúa", copia todo y vuelve a pegarlo; o pídele que la haga más corta.');
+  }
+}
+
 /**
  * Asks Claude for a composition. Needs ANTHROPIC_API_KEY (or another credential
  * the Anthropic SDK can find). Returns the raw spec (checked later by buildSong).
@@ -170,13 +214,7 @@ async function compose({ info, note, songFile }) {
     throw new Error('Falta tu clave de Claude. Cierra el Mezclador y ábrelo con: ANTHROPIC_API_KEY=tu-clave node server.cjs');
   }
   const client = new Anthropic.default();
-  const about = [
-    `Link: ${info.url}`,
-    info.title && `Title: ${info.title}`,
-    info.artist && `Artist / channel: ${info.artist}`,
-    info.description && `Description: ${info.description}`,
-    note && `What the user likes about it: ${note}`,
-  ].filter(Boolean).join('\n');
+  const about = describe(info, note);
 
   const stream = client.beta.messages.stream({
     model: MODEL,
@@ -372,4 +410,4 @@ function saveSong(songsDir, { song, sounds }) {
   return slug;
 }
 
-module.exports = { readLink, compose, buildSong, saveSong, renderSample, SCHEMA, MODEL };
+module.exports = { readLink, compose, chatPrompt, parseAnswer, buildSong, saveSong, renderSample, SCHEMA, MODEL };
