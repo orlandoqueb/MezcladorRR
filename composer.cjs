@@ -195,7 +195,15 @@ async function compose({ info, note, songFile }) {
   try {
     message = await stream.finalMessage();
   } catch (e) {
-    if (e instanceof Anthropic.AuthenticationError) throw new Error('Claude no aceptó la clave (ANTHROPIC_API_KEY). Revisa que esté bien copiada.');
+    if (e instanceof Anthropic.AuthenticationError) {
+      const key = process.env.ANTHROPIC_API_KEY || '';
+      const hints = [];
+      if (key && !key.startsWith('sk-ant-api')) hints.push('la clave debería empezar por sk-ant-api…');
+      if (/^["'\s]|["'\s]$/.test(key)) hints.push('tiene comillas o espacios de más');
+      if (process.env.ANTHROPIC_BASE_URL) hints.push(`ANTHROPIC_BASE_URL está puesto (${process.env.ANTHROPIC_BASE_URL}); quítalo con: unset ANTHROPIC_BASE_URL`);
+      if (process.env.ANTHROPIC_AUTH_TOKEN && !key) hints.push('se está usando ANTHROPIC_AUTH_TOKEN en lugar de una clave');
+      throw new Error(`Claude no aceptó la clave (ANTHROPIC_API_KEY): ${e.message}.${hints.length ? ' Revisa: ' + hints.join('; ') + '.' : ' Revisa que esté bien copiada y activa en platform.claude.com.'}`);
+    }
     if (e instanceof Anthropic.RateLimitError) throw new Error('Claude está recibiendo demasiadas peticiones. Espera un minuto y vuelve a intentarlo.');
     if (e instanceof Anthropic.APIError) throw new Error(`Claude respondió con un error (${e.status}): ${e.message}`);
     throw new Error('No se pudo hablar con Claude: ' + (e.message || e));
