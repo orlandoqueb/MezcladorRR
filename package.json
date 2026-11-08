@@ -2,11 +2,15 @@
   "name": "mezclador",
   "version": "1.0.0",
   "private": true,
-  "description": "Mezclador de la música adaptativa de RadioRun: rangos de BPM y volumen de cada instrumento, con escucha en vivo.",
+  "description": "Mezclador de la música adaptativa de RadioRun: rangos de BPM y volumen de cada instrumento, con escucha en vivo, y canciones nuevas compuestas por Claude a partir de un enlace.",
   "scripts": {
-    "start": "node server.cjs"
+    "start": "node server.cjs",
+    "test": "node --test"
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.6.0"
   }
 }

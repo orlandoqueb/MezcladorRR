@@ -1,0 +1,1367 @@
+{
+ "title": "Marimba al atardecer",
+ "inspiration": "Demo hecha a mano con el mismo formato que devuelve Claude: tropical house en La menor. Empieza con pad, olas y kalimba; entra el groove de congas y bajo, y termina con lead, stabs y platos.",
+ "key": "La menor",
+ "instruments": [
+  {
+   "keeps_playing": false,
+   "out_from": 115,
+   "out_to": 155,
+   "poly": 2,
+   "id": "pad",
+   "name": "Pad cálido",
+   "group": "spa",
+   "sound": {
+    "brightness": 0.35,
+    "attack": 2,
+    "decay": 11,
+    "chord": "min7",
+    "detune": 0.3,
+    "type": "pad"
+   },
+   "gain": 0.24,
+   "in_from": 40,
+   "in_full": 40,
+   "length": 128,
+   "events": [
+    {
+     "step": 0,
+     "note": 57,
+     "vel": 1
+    },
+    {
+     "step": 32,
+     "note": 53,
+     "vel": 0.9
+    },
+    {
+     "step": 64,
+     "note": 60,
+     "vel": 0.95
+    },
+    {
+     "step": 96,
+     "note": 55,
+     "vel": 0.9
+    }
+   ]
+  },
+  {
+   "keeps_playing": false,
+   "out_from": 80,
+   "out_to": 115,
+   "poly": 2,
+   "id": "waves",
+   "name": "Olas",
+   "group": "spa",
+   "sound": {
+    "brightness": 0.3,
+    "attack": 2,
+    "decay": 6.5,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "waves"
+   },
+   "gain": 0.1,
+   "in_from": 40,
+   "in_full": 40,
+   "length": 256,
+   "events": [
+    {
+     "step": 0,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 96,
+     "note": 60,
+     "vel": 0.8
+    },
+    {
+     "step": 184,
+     "note": 60,
+     "vel": 0.9
+    }
+   ]
+  },
+  {
+   "keeps_playing": false,
+   "out_from": 100,
+   "out_to": 130,
+   "poly": 3,
+   "id": "bells",
+   "name": "Campanitas",
+   "group": "spa",
+   "sound": {
+    "brightness": 0.3,
+    "attack": 0.002,
+    "decay": 3,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "bell"
+   },
+   "gain": 0.08,
+   "in_from": 40,
+   "in_full": 40,
+   "length": 256,
+   "events": [
+    {
+     "step": 0,
+     "note": 81,
+     "vel": 0.6
+    },
+    {
+     "step": 40,
+     "note": 76,
+     "vel": 0.5
+    },
+    {
+     "step": 96,
+     "note": 79,
+     "vel": 0.5
+    },
+    {
+     "step": 136,
+     "note": 84,
+     "vel": 0.45
+    },
+    {
+     "step": 192,
+     "note": 76,
+     "vel": 0.5
+    }
+   ]
+  },
+  {
+   "keeps_playing": false,
+   "out_from": 150,
+   "out_to": 190,
+   "poly": 4,
+   "id": "kalimba",
+   "name": "Kalimba",
+   "group": "spa",
+   "sound": {
+    "brightness": 0.3,
+    "attack": 0.002,
+    "decay": 1.2,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "marimba"
+   },
+   "gain": 0.17,
+   "in_from": 40,
+   "in_full": 40,
+   "length": 128,
+   "events": [
+    {
+     "step": 0,
+     "note": 69,
+     "vel": 0.8
+    },
+    {
+     "step": 6,
+     "note": 72,
+     "vel": 0.6
+    },
+    {
+     "step": 10,
+     "note": 76,
+     "vel": 0.55
+    },
+    {
+     "step": 16,
+     "note": 74,
+     "vel": 0.6
+    },
+    {
+     "step": 24,
+     "note": 72,
+     "vel": 0.5
+    },
+    {
+     "step": 32,
+     "note": 69,
+     "vel": 0.7
+    },
+    {
+     "step": 38,
+     "note": 65,
+     "vel": 0.5
+    },
+    {
+     "step": 44,
+     "note": 69,
+     "vel": 0.5
+    },
+    {
+     "step": 52,
+     "note": 72,
+     "vel": 0.5
+    },
+    {
+     "step": 64,
+     "note": 67,
+     "vel": 0.7
+    },
+    {
+     "step": 70,
+     "note": 72,
+     "vel": 0.55
+    },
+    {
+     "step": 76,
+     "note": 76,
+     "vel": 0.5
+    },
+    {
+     "step": 84,
+     "note": 74,
+     "vel": 0.5
+    },
+    {
+     "step": 96,
+     "note": 67,
+     "vel": 0.65
+    },
+    {
+     "step": 102,
+     "note": 71,
+     "vel": 0.5
+    },
+    {
+     "step": 108,
+     "note": 74,
+     "vel": 0.5
+    },
+    {
+     "step": 116,
+     "note": 72,
+     "vel": 0.45
+    }
+   ]
+  },
+  {
+   "keeps_playing": false,
+   "out_from": 92,
+   "out_to": 118,
+   "poly": 2,
+   "id": "heartbeat",
+   "name": "Latido",
+   "group": "spa",
+   "sound": {
+    "brightness": 0.5,
+    "attack": 0.002,
+    "decay": 0.45,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "heartbeat"
+   },
+   "gain": 0.45,
+   "in_from": 40,
+   "in_full": 40,
+   "length": 16,
+   "events": [
+    {
+     "step": 0,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 8,
+     "note": 60,
+     "vel": 0.75
+    }
+   ]
+  },
+  {
+   "keeps_playing": false,
+   "out_from": 124,
+   "out_to": 148,
+   "poly": 2,
+   "id": "shaker",
+   "name": "Shaker",
+   "group": "spa",
+   "sound": {
+    "brightness": 0.5,
+    "attack": 0.002,
+    "decay": 0.12,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "shaker"
+   },
+   "gain": 0.12,
+   "in_from": 62,
+   "in_full": 88,
+   "length": 16,
+   "events": [
+    {
+     "step": 2,
+     "note": 60,
+     "vel": 0.8
+    },
+    {
+     "step": 6,
+     "note": 60,
+     "vel": 0.8
+    },
+    {
+     "step": 10,
+     "note": 60,
+     "vel": 0.8
+    },
+    {
+     "step": 14,
+     "note": 60,
+     "vel": 0.8
+    },
+    {
+     "step": 15,
+     "note": 60,
+     "vel": 0.4
+    }
+   ]
+  },
+  {
+   "keeps_playing": false,
+   "out_from": 118,
+   "out_to": 140,
+   "poly": 1,
+   "id": "bass",
+   "name": "Bajo redondo",
+   "group": "spa",
+   "sound": {
+    "brightness": 0.3,
+    "attack": 0.002,
+    "decay": 2.2,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "bass"
+   },
+   "gain": 0.24,
+   "in_from": 76,
+   "in_full": 100,
+   "length": 128,
+   "events": [
+    {
+     "step": 0,
+     "note": 33,
+     "vel": 1
+    },
+    {
+     "step": 16,
+     "note": 33,
+     "vel": 0.8
+    },
+    {
+     "step": 32,
+     "note": 29,
+     "vel": 1
+    },
+    {
+     "step": 48,
+     "note": 29,
+     "vel": 0.8
+    },
+    {
+     "step": 64,
+     "note": 36,
+     "vel": 1
+    },
+    {
+     "step": 80,
+     "note": 36,
+     "vel": 0.8
+    },
+    {
+     "step": 96,
+     "note": 31,
+     "vel": 1
+    },
+    {
+     "step": 112,
+     "note": 31,
+     "vel": 0.8
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 1,
+   "id": "kick",
+   "name": "Bombo",
+   "group": "ritmo",
+   "sound": {
+    "brightness": 0.4,
+    "attack": 0.002,
+    "decay": 0.42,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "kick"
+   },
+   "gain": 0.58,
+   "in_from": 96,
+   "in_full": 120,
+   "length": 16,
+   "events": [
+    {
+     "step": 0,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 4,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 8,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 12,
+     "note": 60,
+     "vel": 1
+    }
+   ]
+  },
+  {
+   "keeps_playing": false,
+   "out_from": 140,
+   "out_to": 160,
+   "poly": 1,
+   "id": "hat",
+   "name": "Charles",
+   "group": "ritmo",
+   "sound": {
+    "brightness": 0.5,
+    "attack": 0.002,
+    "decay": 0.07,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "hat"
+   },
+   "gain": 0.2,
+   "in_from": 104,
+   "in_full": 126,
+   "length": 16,
+   "events": [
+    {
+     "step": 2,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 6,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 10,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 14,
+     "note": 60,
+     "vel": 1
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 2,
+   "id": "clap",
+   "name": "Palmas",
+   "group": "ritmo",
+   "sound": {
+    "brightness": 0.5,
+    "attack": 0.002,
+    "decay": 0.3,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "clap"
+   },
+   "gain": 0.28,
+   "in_from": 112,
+   "in_full": 134,
+   "length": 16,
+   "events": [
+    {
+     "step": 4,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 12,
+     "note": 60,
+     "vel": 1
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 2,
+   "id": "conga",
+   "name": "Congas",
+   "group": "ritmo",
+   "sound": {
+    "brightness": 0.6,
+    "attack": 0.002,
+    "decay": 0.25,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "conga"
+   },
+   "gain": 0.22,
+   "in_from": 116,
+   "in_full": 138,
+   "length": 32,
+   "events": [
+    {
+     "step": 3,
+     "note": 62,
+     "vel": 0.7
+    },
+    {
+     "step": 6,
+     "note": 57,
+     "vel": 0.9
+    },
+    {
+     "step": 7,
+     "note": 57,
+     "vel": 0.5
+    },
+    {
+     "step": 11,
+     "note": 62,
+     "vel": 0.6
+    },
+    {
+     "step": 14,
+     "note": 57,
+     "vel": 0.8
+    },
+    {
+     "step": 19,
+     "note": 62,
+     "vel": 0.7
+    },
+    {
+     "step": 22,
+     "note": 57,
+     "vel": 0.9
+    },
+    {
+     "step": 27,
+     "note": 64,
+     "vel": 0.6
+    },
+    {
+     "step": 30,
+     "note": 57,
+     "vel": 0.8
+    },
+    {
+     "step": 31,
+     "note": 62,
+     "vel": 0.5
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 1,
+   "id": "roll",
+   "name": "Bajo rodante",
+   "group": "ritmo",
+   "sound": {
+    "brightness": 0.4,
+    "attack": 0.002,
+    "decay": 0.22,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "synthbass"
+   },
+   "gain": 0.26,
+   "in_from": 120,
+   "in_full": 142,
+   "length": 64,
+   "events": [
+    {
+     "step": 1,
+     "note": 33,
+     "vel": 0.7
+    },
+    {
+     "step": 2,
+     "note": 33,
+     "vel": 1
+    },
+    {
+     "step": 3,
+     "note": 33,
+     "vel": 0.7
+    },
+    {
+     "step": 5,
+     "note": 33,
+     "vel": 0.7
+    },
+    {
+     "step": 6,
+     "note": 33,
+     "vel": 1
+    },
+    {
+     "step": 7,
+     "note": 33,
+     "vel": 0.7
+    },
+    {
+     "step": 9,
+     "note": 33,
+     "vel": 0.7
+    },
+    {
+     "step": 10,
+     "note": 33,
+     "vel": 1
+    },
+    {
+     "step": 11,
+     "note": 33,
+     "vel": 0.7
+    },
+    {
+     "step": 13,
+     "note": 33,
+     "vel": 0.7
+    },
+    {
+     "step": 14,
+     "note": 45,
+     "vel": 1
+    },
+    {
+     "step": 15,
+     "note": 33,
+     "vel": 0.7
+    },
+    {
+     "step": 17,
+     "note": 29,
+     "vel": 0.7
+    },
+    {
+     "step": 18,
+     "note": 29,
+     "vel": 1
+    },
+    {
+     "step": 19,
+     "note": 29,
+     "vel": 0.7
+    },
+    {
+     "step": 21,
+     "note": 29,
+     "vel": 0.7
+    },
+    {
+     "step": 22,
+     "note": 29,
+     "vel": 1
+    },
+    {
+     "step": 23,
+     "note": 29,
+     "vel": 0.7
+    },
+    {
+     "step": 25,
+     "note": 29,
+     "vel": 0.7
+    },
+    {
+     "step": 26,
+     "note": 29,
+     "vel": 1
+    },
+    {
+     "step": 27,
+     "note": 29,
+     "vel": 0.7
+    },
+    {
+     "step": 29,
+     "note": 29,
+     "vel": 0.7
+    },
+    {
+     "step": 30,
+     "note": 41,
+     "vel": 1
+    },
+    {
+     "step": 31,
+     "note": 29,
+     "vel": 0.7
+    },
+    {
+     "step": 33,
+     "note": 36,
+     "vel": 0.7
+    },
+    {
+     "step": 34,
+     "note": 36,
+     "vel": 1
+    },
+    {
+     "step": 35,
+     "note": 36,
+     "vel": 0.7
+    },
+    {
+     "step": 37,
+     "note": 36,
+     "vel": 0.7
+    },
+    {
+     "step": 38,
+     "note": 36,
+     "vel": 1
+    },
+    {
+     "step": 39,
+     "note": 36,
+     "vel": 0.7
+    },
+    {
+     "step": 41,
+     "note": 36,
+     "vel": 0.7
+    },
+    {
+     "step": 42,
+     "note": 36,
+     "vel": 1
+    },
+    {
+     "step": 43,
+     "note": 36,
+     "vel": 0.7
+    },
+    {
+     "step": 45,
+     "note": 36,
+     "vel": 0.7
+    },
+    {
+     "step": 46,
+     "note": 48,
+     "vel": 1
+    },
+    {
+     "step": 47,
+     "note": 36,
+     "vel": 0.7
+    },
+    {
+     "step": 49,
+     "note": 31,
+     "vel": 0.7
+    },
+    {
+     "step": 50,
+     "note": 31,
+     "vel": 1
+    },
+    {
+     "step": 51,
+     "note": 31,
+     "vel": 0.7
+    },
+    {
+     "step": 53,
+     "note": 31,
+     "vel": 0.7
+    },
+    {
+     "step": 54,
+     "note": 31,
+     "vel": 1
+    },
+    {
+     "step": 55,
+     "note": 31,
+     "vel": 0.7
+    },
+    {
+     "step": 57,
+     "note": 31,
+     "vel": 0.7
+    },
+    {
+     "step": 58,
+     "note": 31,
+     "vel": 1
+    },
+    {
+     "step": 59,
+     "note": 31,
+     "vel": 0.7
+    },
+    {
+     "step": 61,
+     "note": 31,
+     "vel": 0.7
+    },
+    {
+     "step": 62,
+     "note": 43,
+     "vel": 1
+    },
+    {
+     "step": 63,
+     "note": 31,
+     "vel": 0.7
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 3,
+   "id": "pluck",
+   "name": "Arpegio",
+   "group": "ritmo",
+   "sound": {
+    "brightness": 0.55,
+    "attack": 0.002,
+    "decay": 0.9,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "pluck"
+   },
+   "gain": 0.13,
+   "in_from": 128,
+   "in_full": 150,
+   "length": 64,
+   "events": [
+    {
+     "step": 0,
+     "note": 69,
+     "vel": 0.6
+    },
+    {
+     "step": 3,
+     "note": 72,
+     "vel": 0.6
+    },
+    {
+     "step": 6,
+     "note": 76,
+     "vel": 0.6
+    },
+    {
+     "step": 8,
+     "note": 81,
+     "vel": 0.6
+    },
+    {
+     "step": 11,
+     "note": 76,
+     "vel": 0.6
+    },
+    {
+     "step": 14,
+     "note": 72,
+     "vel": 0.6
+    },
+    {
+     "step": 16,
+     "note": 65,
+     "vel": 0.6
+    },
+    {
+     "step": 19,
+     "note": 68,
+     "vel": 0.6
+    },
+    {
+     "step": 22,
+     "note": 72,
+     "vel": 0.6
+    },
+    {
+     "step": 24,
+     "note": 77,
+     "vel": 0.6
+    },
+    {
+     "step": 27,
+     "note": 72,
+     "vel": 0.6
+    },
+    {
+     "step": 30,
+     "note": 68,
+     "vel": 0.6
+    },
+    {
+     "step": 32,
+     "note": 72,
+     "vel": 0.6
+    },
+    {
+     "step": 35,
+     "note": 75,
+     "vel": 0.6
+    },
+    {
+     "step": 38,
+     "note": 79,
+     "vel": 0.6
+    },
+    {
+     "step": 40,
+     "note": 84,
+     "vel": 0.6
+    },
+    {
+     "step": 43,
+     "note": 79,
+     "vel": 0.6
+    },
+    {
+     "step": 46,
+     "note": 75,
+     "vel": 0.6
+    },
+    {
+     "step": 48,
+     "note": 67,
+     "vel": 0.6
+    },
+    {
+     "step": 51,
+     "note": 70,
+     "vel": 0.6
+    },
+    {
+     "step": 54,
+     "note": 74,
+     "vel": 0.6
+    },
+    {
+     "step": 56,
+     "note": 79,
+     "vel": 0.6
+    },
+    {
+     "step": 59,
+     "note": 74,
+     "vel": 0.6
+    },
+    {
+     "step": 62,
+     "note": 70,
+     "vel": 0.6
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 1,
+   "id": "openhat",
+   "name": "Charles abierto",
+   "group": "pico",
+   "sound": {
+    "brightness": 0.5,
+    "attack": 0.002,
+    "decay": 0.35,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "openhat"
+   },
+   "gain": 0.18,
+   "in_from": 138,
+   "in_full": 158,
+   "length": 16,
+   "events": [
+    {
+     "step": 2,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 6,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 10,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 14,
+     "note": 60,
+     "vel": 1
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 2,
+   "id": "ride",
+   "name": "Ride",
+   "group": "pico",
+   "sound": {
+    "brightness": 0.5,
+    "attack": 0.002,
+    "decay": 0.9,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "ride"
+   },
+   "gain": 0.12,
+   "in_from": 150,
+   "in_full": 170,
+   "length": 16,
+   "events": [
+    {
+     "step": 0,
+     "note": 60,
+     "vel": 0.8
+    },
+    {
+     "step": 4,
+     "note": 60,
+     "vel": 0.8
+    },
+    {
+     "step": 8,
+     "note": 60,
+     "vel": 0.8
+    },
+    {
+     "step": 12,
+     "note": 60,
+     "vel": 0.8
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 1,
+   "id": "lead",
+   "name": "Lead",
+   "group": "pico",
+   "sound": {
+    "brightness": 0.5,
+    "attack": 0.002,
+    "decay": 0.5,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "lead"
+   },
+   "gain": 0.13,
+   "in_from": 156,
+   "in_full": 178,
+   "length": 64,
+   "events": [
+    {
+     "step": 0,
+     "note": 76,
+     "vel": 0.9
+    },
+    {
+     "step": 3,
+     "note": 74,
+     "vel": 0.7
+    },
+    {
+     "step": 6,
+     "note": 72,
+     "vel": 0.8
+    },
+    {
+     "step": 10,
+     "note": 69,
+     "vel": 0.7
+    },
+    {
+     "step": 16,
+     "note": 72,
+     "vel": 0.9
+    },
+    {
+     "step": 19,
+     "note": 74,
+     "vel": 0.7
+    },
+    {
+     "step": 22,
+     "note": 76,
+     "vel": 0.8
+    },
+    {
+     "step": 28,
+     "note": 79,
+     "vel": 0.7
+    },
+    {
+     "step": 32,
+     "note": 77,
+     "vel": 0.9
+    },
+    {
+     "step": 38,
+     "note": 76,
+     "vel": 0.7
+    },
+    {
+     "step": 42,
+     "note": 74,
+     "vel": 0.7
+    },
+    {
+     "step": 48,
+     "note": 72,
+     "vel": 0.8
+    },
+    {
+     "step": 51,
+     "note": 74,
+     "vel": 0.6
+    },
+    {
+     "step": 54,
+     "note": 76,
+     "vel": 0.8
+    },
+    {
+     "step": 60,
+     "note": 74,
+     "vel": 0.6
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 2,
+   "id": "stab",
+   "name": "Acordes stab",
+   "group": "pico",
+   "sound": {
+    "brightness": 0.5,
+    "attack": 0.002,
+    "decay": 0.45,
+    "chord": "min7",
+    "detune": 0.3,
+    "type": "stab"
+   },
+   "gain": 0.16,
+   "in_from": 166,
+   "in_full": 188,
+   "length": 64,
+   "events": [
+    {
+     "step": 3,
+     "note": 57,
+     "vel": 0.9
+    },
+    {
+     "step": 10,
+     "note": 57,
+     "vel": 0.7
+    },
+    {
+     "step": 19,
+     "note": 53,
+     "vel": 0.9
+    },
+    {
+     "step": 26,
+     "note": 53,
+     "vel": 0.7
+    },
+    {
+     "step": 35,
+     "note": 60,
+     "vel": 0.9
+    },
+    {
+     "step": 42,
+     "note": 60,
+     "vel": 0.7
+    },
+    {
+     "step": 51,
+     "note": 55,
+     "vel": 0.9
+    },
+    {
+     "step": 58,
+     "note": 55,
+     "vel": 0.7
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 1,
+   "id": "crash",
+   "name": "Platillo",
+   "group": "pico",
+   "sound": {
+    "brightness": 0.5,
+    "attack": 0.002,
+    "decay": 2,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "crash"
+   },
+   "gain": 0.1,
+   "in_from": 176,
+   "in_full": 196,
+   "length": 128,
+   "events": [
+    {
+     "step": 0,
+     "note": 60,
+     "vel": 1
+    },
+    {
+     "step": 64,
+     "note": 60,
+     "vel": 0.7
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 2,
+   "id": "toms",
+   "name": "Redobles",
+   "group": "pico",
+   "sound": {
+    "brightness": 0.5,
+    "attack": 0.002,
+    "decay": 0.4,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "tom"
+   },
+   "gain": 0.26,
+   "in_from": 182,
+   "in_full": 202,
+   "length": 128,
+   "events": [
+    {
+     "step": 120,
+     "note": 52,
+     "vel": 0.8
+    },
+    {
+     "step": 121,
+     "note": 52,
+     "vel": 0.6
+    },
+    {
+     "step": 122,
+     "note": 48,
+     "vel": 0.8
+    },
+    {
+     "step": 123,
+     "note": 48,
+     "vel": 0.6
+    },
+    {
+     "step": 124,
+     "note": 45,
+     "vel": 0.9
+    },
+    {
+     "step": 125,
+     "note": 45,
+     "vel": 0.7
+    },
+    {
+     "step": 126,
+     "note": 43,
+     "vel": 1
+    },
+    {
+     "step": 127,
+     "note": 43,
+     "vel": 0.8
+    }
+   ]
+  },
+  {
+   "keeps_playing": true,
+   "out_from": 220,
+   "out_to": 220,
+   "poly": 1,
+   "id": "drive",
+   "name": "Bombo extra",
+   "group": "pico",
+   "sound": {
+    "brightness": 0.9,
+    "attack": 0.002,
+    "decay": 0.3,
+    "chord": "single",
+    "detune": 0.3,
+    "type": "kick"
+   },
+   "gain": 0.36,
+   "in_from": 196,
+   "in_full": 216,
+   "length": 32,
+   "events": [
+    {
+     "step": 14,
+     "note": 60,
+     "vel": 0.7
+    },
+    {
+     "step": 30,
+     "note": 60,
+     "vel": 0.8
+    },
+    {
+     "step": 31,
+     "note": 60,
+     "vel": 0.6
+    }
+   ]
+  }
+ ]
+}
